@@ -1,0 +1,65 @@
+import { Configuration, OpenAIApi } from 'openai-edge'
+
+// Create an OpenAI API client (that's edge friendly!)
+const config = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY
+})
+const openai = new OpenAIApi(config)
+
+export async function generateParody(article: string) {
+
+  console.log('generateParody for '+article)
+
+  const response = await openai.createChatCompletion({
+    model: 'gpt-4',
+    messages: [
+      {
+        role: 'user',
+        content: `Generate a news article in the style of The Onion set 100 years into the future on this article from today's news. Factor in how drastically different the world would be in 100 years. This news article might not even be relevant: ${article}`
+      }
+    ],
+    functions: [{
+      name: 'print',
+      description: 'Prints a news article in json format',
+      parameters: {
+        type: 'object',
+        properties: {
+          title: {
+            type: 'string',
+            description: 'Title of the article'
+          },
+          abstract: {
+            type: 'string',
+            description: 'Brief description of the article'
+          },
+          content: {
+            type: 'string',
+            description: 'Text content of the article'
+          },
+          imageDescription: {
+            type: 'string',
+            description: 'A text prompt to provide DALLE so it can generate a main image to go along with the article'
+          },
+        }
+      }
+    }]
+  })
+  console.log('response received')
+  const json = await response.json()
+  let argumentsString, dataString
+  console.log('loaded json')
+  try {
+    argumentsString = json.choices[0].message.function_call.arguments;
+    dataString = argumentsString.replace(/\\n/g, '').replace(/\\r/g, '').replace(/\n/g, '').replace(/\r/g, '');
+    // const dataString:string = argumentsString.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\r/g, '\r');
+    // const dataString:string = argumentsString.replace(/"(.*?)"/gs, (match: string, group1: string) => {
+    //   return '"' + group1.replace(/\n/g, '\\n').replace(/\r/g, '\\r') + '"';
+    // });
+    const data = JSON.parse(dataString)
+    return data
+  } catch (error) {
+    console.error('Failed to parse JSON', error, {argumentsString, dataString});
+    return error
+  }
+
+}
