@@ -19,7 +19,6 @@ async function getNewsArticles() {
 export default async function Home() {
 
   const articles:NewsArticle[] = await getNewsArticles()
-  console.log({articles})
 
   return (
     <Main articles={articles} />
