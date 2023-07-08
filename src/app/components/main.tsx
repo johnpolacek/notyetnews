@@ -5,7 +5,10 @@ export default function Main({articles}: {articles: NewsArticle[]}) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-16 max-w-[960px] mx-auto">
-      <h1 className="text-6xl pb-16 border-b">Not Yet News</h1>
+      <div className="pb-8 border-[#ccc] border-double border-b-4 w-full mb-12 text-center">
+        <h1 className="text-6xl">Not Yet News</h1>
+        <h4>{new Date(new Date().setFullYear(new Date().getFullYear() + 100)).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h4>
+      </div>
       <div>
         {articles.filter((article) => (article.title && article.abstract)).map((article, i) => (
           <div className="flex gap-8 pb-12" key={`article-${i}`}>
