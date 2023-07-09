@@ -76,7 +76,7 @@ export async function POST(req: Request) {
     const day = ('0' + date.getUTCDate()).slice(-2); // Add leading 0 if needed
 
     const filename = `notyetnews-${year}-${month}-${day}.json`;
-    console.log('uploading json...', json)
+    console.log('uploading json...')
     const responseS3 = await uploadJSONToS3(json, filename);
 
     console.log('Uploaded to S3: ', responseS3)
