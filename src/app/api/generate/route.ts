@@ -76,7 +76,7 @@ export async function POST(req: Request) {
     console.log('uploading json...', json)
     await uploadJSONToS3(json, filename);
 
-    return NextResponse.json({ message: 'Not Yet News created successfully' });
+    return NextResponse.json({ message: '' });
   } else {
     return NextResponse.json({ message: 'Auth param required to generate' });
   }

@@ -2,7 +2,7 @@ import { NextResponse } from 'next/server'
 
 export async function GET() {
   try {
-    await fetch(`https://${process.env.VERCEL_APP_URL}/api/generate`, {
+    fetch(`https://${process.env.VERCEL_APP_URL}/api/generate`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
