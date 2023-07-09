@@ -42,7 +42,7 @@ export async function POST(req: Request) {
         newArticle = {
           title: articleData.title,
           abstract: articleData.abstract,
-          content: '', // articleData.content,
+          content: articleData.content,
           imageUrl: ''
         }
         imageDescription = articleData.imageDescription
