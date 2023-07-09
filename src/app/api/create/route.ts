@@ -14,7 +14,7 @@ export async function POST(req: Request) {
 
   const { init } = await req.json()
 
-  if (init) {
+  if (init === process.env.CRON) {
     const url = 'https://api.nytimes.com/svc/topstories/v2/home.json?api-key=' + process.env.NYT_API_KEY;
 
     // Fetch top stories from NYT API
@@ -72,6 +72,6 @@ export async function POST(req: Request) {
 
     return NextResponse.json({ message: 'Not Yet News created successfully' });
   } else {
-    return NextResponse.json({ message: 'Not Yet News param required to generate' });
+    return NextResponse.json({ message: 'Auth param required to generate' });
   }
 }
