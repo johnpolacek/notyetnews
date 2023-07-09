@@ -19,7 +19,8 @@ export async function POST(req: Request) {
   if (init === process.env.CRON) {
 
     const referer = req.headers.get('Referer');
-    if (!referer || !process.env.VERCEL_APP_URL || !referer.includes(process.env.VERCEL_APP_URL)) {
+    // if (!referer || !process.env.VERCEL_APP_URL || !referer.includes(process.env.VERCEL_APP_URL)) {
+    if (!referer || !process.env.VERCEL_APP_URL) {
       return NextResponse.json({ message: 'Unauthorized request origin' });
     }
 
@@ -51,12 +52,12 @@ export async function POST(req: Request) {
       }
 
       // Generate image
-      try {
-        const generatedImageUrl = await generateImage(imageDescription);
-        newArticle.imageUrl = await transferImageToS3(generatedImageUrl, 'notyetnews-'+Date.now()+'.png')
-      } catch (error) {
-        console.log('Image generation error')
-      }
+      // try {
+      //   const generatedImageUrl = await generateImage(imageDescription);
+      //   newArticle.imageUrl = await transferImageToS3(generatedImageUrl, 'notyetnews-'+Date.now()+'.png')
+      // } catch (error) {
+      //   console.log('Image generation error')
+      // }
 
       // Add to parody articles
       if (newArticle) {
@@ -76,9 +77,11 @@ export async function POST(req: Request) {
 
     const filename = `notyetnews-${year}-${month}-${day}.json`;
     console.log('uploading json...', json)
-    await uploadJSONToS3(json, filename);
+    const responseS3 = await uploadJSONToS3(json, filename);
 
-    return NextResponse.json({ message: '' });
+    console.log('Uploaded to S3: ', responseS3)
+
+    return NextResponse.json({ message: 'Not Yet News created successfully' });
   } else {
     return NextResponse.json({ message: 'Auth param required to generate' });
   }

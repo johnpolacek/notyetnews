@@ -1,12 +1,12 @@
-import AWS from "aws-sdk"
+import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
 
-AWS.config.update({
+const s3 = new S3Client({
   region: process.env.AWS_REGION,
-  accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-  secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-})
-
-const s3 = new AWS.S3()
+  credentials: {
+    accessKeyId: process.env.AWS_ACCESS_KEY_ID || '',
+    secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || ''
+  }
+});
 
 export const uploadImageToS3 = async (buffer: Buffer, key: string) => {
   try {
@@ -14,16 +14,15 @@ export const uploadImageToS3 = async (buffer: Buffer, key: string) => {
       throw new Error('AWS_S3_BUCKET_NAME is not set in the environment variables');
     }
 
-    const params = {
+    console.log("Prepare for upload to S3")
+
+    const command = new PutObjectCommand({
       Bucket: process.env.AWS_S3_BUCKET_NAME,
       Key: key,
       Body: buffer,
       ContentType: 'image/jpeg', // Or use a more specific MIME type based on the image format
-    };
-
-    console.log("Prepare for upload to S3")
-
-    await s3.upload(params).promise();
+    });
+    await s3.send(command);
 
     console.log("Upload complete")
 
@@ -42,16 +41,13 @@ export const uploadJSONToS3 = async (json: string, key: string) => {
       throw new Error('AWS_S3_BUCKET_NAME is not set in the environment variables');
     }
 
-    const params = {
+    const command = new PutObjectCommand({
       Bucket: process.env.AWS_S3_BUCKET_NAME,
       Key: key,
       Body: json,
-      ContentType: 'application/json',
-    };
-
-    console.log("Prepare for upload to S3")
-
-    await s3.upload(params).promise();
+      ContentType: 'application/json'
+    });
+    await s3.send(command);
 
     console.log("Upload complete")
 
@@ -81,22 +77,15 @@ export const transferImageToS3 = async (
     const arrayBuffer = await response.arrayBuffer()
 
     // Prepare the parameters for uploading to S3
-    const params = {
+    console.log("Prepare for upload to S3")
+
+    const command = new PutObjectCommand({
       Bucket: process.env.AWS_S3_BUCKET_NAME,
       Key: key,
       Body: Buffer.from(arrayBuffer),
-      ContentType:
-        response.headers.get("content-type") || "application/octet-stream",
-      ContentLength: parseInt(
-        response.headers.get("content-length") || "0",
-        10
-      ),
-    }
-
-    console.log("Prepare for upload to S3")
-
-    // Upload the image to the S3 bucket
-    await s3.upload(params).promise()
+      ContentType: response.headers.get("content-type") || 'image/jpeg', // Or use a more specific MIME type based on the image format
+    });
+    await s3.send(command);
 
     console.log("Upload complete")
 
