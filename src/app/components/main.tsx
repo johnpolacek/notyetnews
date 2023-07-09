@@ -30,7 +30,7 @@ export default function Main({articles}: {articles: NewsArticle[]}) {
                 <p>{article.abstract}</p>
               </div>
               <div className="w-full md:w-3/5 grow border">
-                <Image className='w-full h-auto' alt="" src={article.imageUrl || `/placeholder${Math.round(Math.random() * 6)}.png`} width={180} height={180} />
+                <Image className='w-full h-auto' alt="" src={article.imageUrl || `/placeholder${Math.round(Math.random() * 5)}.png`} width={180} height={180} />
               </div>
             </div>
           ))}

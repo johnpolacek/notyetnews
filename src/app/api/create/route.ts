@@ -12,20 +12,10 @@ interface ArticleData {
 
 export const runtime = 'edge'
 
-export async function POST(req: Request) {
-
-  const { init } = await req.json()
-
-  if (init === process.env.CRON) {
-
-    const referer = req.headers.get('Referer');
-    // if (!referer || !process.env.VERCEL_APP_URL || !referer.includes(process.env.VERCEL_APP_URL)) {
-    if (!referer || !process.env.VERCEL_APP_URL) {
-      return NextResponse.json({ message: 'Unauthorized request origin' });
-    }
-
+export async function GET() {
+  try {
     const url = 'https://api.nytimes.com/svc/topstories/v2/home.json?api-key=' + process.env.NYT_API_KEY;
-
+    console.log('create stream')
     const encoder = new TextEncoder();
     const readable = new ReadableStream({
       async start(controller) {
@@ -43,21 +33,24 @@ export async function POST(req: Request) {
           let imageDescription:String
 
           try {
+            console.log(`Generate article #${(newArticles.length+1)} ${article.title}`)
             controller.enqueue(encoder.encode(`Generate article #${(newArticles.length+1)} ${article.title}`));
             const articleData = await generateParody(article.title + ' - ' + article.abstract);
             newArticle = {
-              title: articleData.title.replace('New York Times', 'Not Yet News').replace('The Onion', 'Not Yet News'),
-              abstract: articleData.abstract.replace('New York Times', 'Not Yet News').replace('The Onion', 'Not Yet News'),
-              content: articleData.content.replace('New York Times', 'Not Yet News').replace('The Onion', 'Not Yet News'),
+              title: articleData.title,
+              abstract: articleData.abstract,
+              content: articleData.content,
               imageUrl: ''
             }
             imageDescription = articleData.imageDescription
           } catch (error) {
+            console.log('Error on article generation', error)
             return null
           }
 
           // Generate image
           try {
+            console.log(`Generate image #${(newArticles.length+1)}`)
             controller.enqueue(encoder.encode(`Generate image #${(newArticles.length+1)}`));
             const generatedImageUrl = await generateImage(imageDescription);
             controller.enqueue(encoder.encode(`Image generated. Copy to S3...`));
@@ -98,8 +91,8 @@ export async function POST(req: Request) {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
 
-  } else {
-    return NextResponse.json({ message: 'Auth param required to generate' });
+  } catch (error) {
+    return NextResponse.json({ message: error.message }, { status: 500 })
   }
 
 }

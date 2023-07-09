@@ -32,10 +32,10 @@ export async function generateParody(article: string) {
             type: 'string',
             description: 'Brief description of the article'
           },
-          // content: {
-          //   type: 'string',
-          //   description: 'Text content of the article'
-          // },
+          content: {
+            type: 'string',
+            description: 'Text content of the article'
+          },
           imageDescription: {
             type: 'string',
             description: 'A text prompt to provide DALLE so it can generate a main image to go along with the article'
@@ -55,7 +55,9 @@ export async function generateParody(article: string) {
     // const dataString:string = argumentsString.replace(/"(.*?)"/gs, (match: string, group1: string) => {
     //   return '"' + group1.replace(/\n/g, '\\n').replace(/\r/g, '\\r') + '"';
     // });
+    console.log('parsing data...')
     const data = JSON.parse(dataString)
+    console.log('data parsed!')
     return data
   } catch (error) {
     console.error('Failed to parse JSON', error, {argumentsString, dataString});
