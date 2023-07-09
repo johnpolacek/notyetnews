@@ -15,7 +15,7 @@ export async function generateParody(article: string) {
     messages: [
       {
         role: 'user',
-        content: `Generate a speculative saritirical article in the style of The New York Times set 100 years into the future on the theme from an article from today's news. Factor in how drastically different the world would be in 100 years. This news article might not even be relevant: ${article}`
+        content: `Generate a speculative satirical article in the style of The New York Times set 100 years into the future on the theme from an article from today's news. Factor in how drastically different the world would be in 100 years. This news article might not even be relevant: ${article}`
       }
     ],
     functions: [{
@@ -32,10 +32,10 @@ export async function generateParody(article: string) {
             type: 'string',
             description: 'Brief description of the article'
           },
-          content: {
-            type: 'string',
-            description: 'Text content of the article'
-          },
+          // content: {
+          //   type: 'string',
+          //   description: 'Text content of the article'
+          // },
           imageDescription: {
             type: 'string',
             description: 'A text prompt to provide DALLE so it can generate a main image to go along with the article'

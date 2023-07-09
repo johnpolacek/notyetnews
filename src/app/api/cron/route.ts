@@ -1,9 +1,6 @@
 import { NextResponse } from 'next/server'
 
-export const config = {
-  runtime: 'edge', // this is a pre-requisite
-  regions: ['cle1'], // only execute this function on cle1
-};
+export const runtime = 'edge'
 
 export async function GET() {
   try {
