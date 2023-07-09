@@ -21,8 +21,8 @@ export default function Main({articles}: {articles: NewsArticle[]}) {
           <Image src="/notyetnews.svg" width={720} height={48} alt="Not Yet News" />
         </h1>
       </div>
-      <div className="grid lg:grid-cols-3 gap-8 divide-x">
-        <div className="col-span-2 divide-y -mt-8">
+      <div className="grid lg:grid-cols-3 gap-8">
+        <div className="col-span-2 divide-y divide-[#aaa] -mt-8">
           {topArticles.map((article, i) => (
             <div className="flex flex-col flex-col-reverse md:flex-row gap-4 md:gap-8 py-8" key={`article-${i}`}>
               <div className="w-full md:w-2/5">
@@ -35,19 +35,19 @@ export default function Main({articles}: {articles: NewsArticle[]}) {
             </div>
           ))}
         </div>
-        <div className="pl-8">
+        <div className="pl-8 border-l border-l-[#aaa]">
           {batchedArticles.map((batch, i) => (
             <>
               <div className="flex flex-col gap-8 pb-8" key={`article-${i}`}>
                 <Image className='w-full h-auto' alt="" src={batch[0].imageUrl || `/placeholder${Math.round(Math.random() * 6)}.png`} width={180} height={180} />
-                <div className="border-b pb-6">
+                <div className="border-b border-[#aaa] pb-6">
                   <h3 className="text-xl font-semibold pb-2 ">{batch[0].title}</h3>
                   <p>{batch[0].abstract}</p>
                 </div>
               </div>
               {
                 batch.length === 3 && (
-                <div className="grid grid-cols-2 divide-x pb-8">
+                <div className="grid grid-cols-2 divide-x divide-[#aaa] pb-8">
                   <div className="pr-8">
                     <Image className='pb-2 w-full h-auto' alt="" src={batch[1].imageUrl || `/placeholder${Math.round(Math.random() * 6)}.png`} width={180} height={180} />
                     <h3 className="text-sm font-semibold pb-2 ">{batch[1].title}</h3>
