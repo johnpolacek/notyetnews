@@ -12,8 +12,6 @@ interface ArticleData {
 
 export async function POST(req: Request) {
 
-  console.log('process.env.AWS_S3_BUCKET_NAME '+ process.env.AWS_S3_BUCKET_NAME)
-
   const { init } = await req.json()
 
   if (init) {

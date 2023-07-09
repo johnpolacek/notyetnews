@@ -14,9 +14,12 @@ export default function Main({articles}: {articles: NewsArticle[]}) {
 
   return (
     <main className="flex min-h-screen flex-col items-center justify-between p-8 xl:p-16 max-w-[1400px] mx-auto">
-      <div className="pb-8 border-[#aaa] border-double border-b-4 w-full mb-12 text-center">
-        <h1 className="text-6xl">Not Yet News</h1>
+      <div className="grid grid-cols-5 pb-8 border-[#666] border-double border-b-4 w-full mb-12">
         <h4>{new Date(new Date().setFullYear(new Date().getFullYear() + 100)).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h4>
+        <h1 className="w-[720px] text-center col-span-3">
+          <p className="text-xl pb-1">Speculative Satire from the Future</p>
+          <Image src="/notyetnews.svg" width={720} height={48} alt="Not Yet News" />
+        </h1>
       </div>
       <div className="grid lg:grid-cols-3 gap-8 divide-x">
         <div className="col-span-2 divide-y -mt-8">
