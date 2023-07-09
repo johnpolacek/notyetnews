@@ -10,6 +10,11 @@ interface ArticleData {
   imageUrl: String;
 }
 
+export const config = {
+  runtime: 'edge', // this is a pre-requisite
+  regions: ['cle1'], // only execute this function on cle1
+};
+
 export async function POST(req: Request) {
 
   const { init } = await req.json()
