@@ -46,9 +46,9 @@ export async function POST(req: Request) {
             controller.enqueue(encoder.encode(`Generate article #${(newArticles.length+1)} ${article.title}`));
             const articleData = await generateParody(article.title + ' - ' + article.abstract);
             newArticle = {
-              title: articleData.title,
-              abstract: articleData.abstract,
-              content: articleData.content,
+              title: articleData.title.replace('New York Times', 'Not Yet News').replace('The Onion', 'Not Yet News'),
+              abstract: articleData.abstract.replace('New York Times', 'Not Yet News').replace('The Onion', 'Not Yet News'),
+              content: articleData.content.replace('New York Times', 'Not Yet News').replace('The Onion', 'Not Yet News'),
               imageUrl: ''
             }
             imageDescription = articleData.imageDescription
