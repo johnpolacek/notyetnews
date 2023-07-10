@@ -91,8 +91,12 @@ export async function GET() {
       headers: { 'Content-Type': 'text/plain; charset=utf-8' },
     });
 
-  } catch (error) {
-    return NextResponse.json({ message: error.message }, { status: 500 })
+  } catch (error: any) {
+    let message = 'An error occurred';
+    if (typeof error === 'object' && error !== null && 'message' in error) {
+      message = error.message;
+    }
+    return NextResponse.json({ message: message }, { status: 500 })
   }
 
 }
