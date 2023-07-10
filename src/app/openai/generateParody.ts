@@ -15,7 +15,7 @@ export async function generateParody(article: string) {
     messages: [
       {
         role: 'user',
-        content: `Generate a speculative satirical article in the style of The New York Times set 100 years into the future on the theme from this article from today's news: "${article}". Factor in how drastically different the world would be in 100 years. Create new personas and identities for a speculative vision of the future.`
+        content: `Generate a speculative satirical article in the style of The New York Times set 100 years into the future on the theme from this article from today's news: "${article}". Factor in how drastically different the world would be in 100 years. Create new personas and identities for people in this speculative vision of the future based on the news of today and how things will change in 100 years.`
       }
     ],
     functions: [{
