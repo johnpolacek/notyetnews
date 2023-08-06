@@ -1,4 +1,3 @@
-import { NextResponse } from 'next/server'
 import { generateImage } from '@/app/openai/generateImage';
 import { generateParody } from '@/app/openai/generateParody';
 import { uploadJSONToS3, transferImageToS3 } from '@/app/aws/s3';
@@ -49,41 +48,41 @@ export async function GET() {
             return null
           }
 
-          // // Generate image
-          // try {
-          //   console.log(`Generate image #${(newArticles.length+1)}`)
-          //   controller.enqueue(encoder.encode(`Generate image #${(newArticles.length+1)}`));
-          //   const generatedImageUrl = await generateImage(imageDescription);
-          //   controller.enqueue(encoder.encode(`Image generated. Copy to S3...`));
-          //   newArticle.imageUrl = await transferImageToS3(generatedImageUrl, 'notyetnews-'+Date.now()+'.png')
-          //   controller.enqueue(encoder.encode(`Image url ${newArticle.imageUrl}`));
-          // } catch (error) {
-          //   console.log('Image generation error')
-          // }
+          // Generate image
+          try {
+            console.log(`Generate image #${(newArticles.length+1)}`)
+            controller.enqueue(encoder.encode(`Generate image #${(newArticles.length+1)}`));
+            const generatedImageUrl = await generateImage(imageDescription);
+            controller.enqueue(encoder.encode(`Image generated. Copy to S3...`));
+            newArticle.imageUrl = await transferImageToS3(generatedImageUrl, 'notyetnews-'+Date.now()+'.png')
+            controller.enqueue(encoder.encode(`Image url ${newArticle.imageUrl}`));
+          } catch (error) {
+            console.log('Image generation error')
+          }
 
-          // // Add to parody articles
-          // if (newArticle) {
-          //   console.log('Article #'+(newArticles.length+1)+ ' generation complete.')
-          //   controller.enqueue(encoder.encode('Article #'+(newArticles.length+1)+ ' generation complete.'));
-          //   newArticles.push(newArticle)
-          // }
+          // Add to parody articles
+          if (newArticle) {
+            console.log('Article #'+(newArticles.length+1)+ ' generation complete.')
+            controller.enqueue(encoder.encode('Article #'+(newArticles.length+1)+ ' generation complete.'));
+            newArticles.push(newArticle)
+          }
         }
 
-        // // Convert parody articles to JSON string
-        // const json = JSON.stringify(newArticles);
+        // Convert parody articles to JSON string
+        const json = JSON.stringify(newArticles);
 
-        // // Upload JSON to S3
-        // const date = new Date();
-        // const year = date.getUTCFullYear();
-        // const month = ('0' + (date.getUTCMonth() + 1)).slice(-2); // Months are 0-based, so we add 1
-        // const day = ('0' + date.getUTCDate()).slice(-2); // Add leading 0 if needed
+        // Upload JSON to S3
+        const date = new Date();
+        const year = date.getUTCFullYear();
+        const month = ('0' + (date.getUTCMonth() + 1)).slice(-2); // Months are 0-based, so we add 1
+        const day = ('0' + date.getUTCDate()).slice(-2); // Add leading 0 if needed
 
-        // const filename = `notyetnews-${year}-${month}-${day}.json`;
-        // console.log('uploading json...')
-        // controller.enqueue(encoder.encode('uploading json'));
-        // const responseS3 = await uploadJSONToS3(json, filename);
-        // console.log('Uploaded to S3: '+ responseS3)
-        // controller.enqueue('Uploaded to S3: '+ responseS3);
+        const filename = `notyetnews-${year}-${month}-${day}.json`;
+        console.log('uploading json...')
+        controller.enqueue(encoder.encode('uploading json'));
+        const responseS3 = await uploadJSONToS3(json, filename);
+        console.log('Uploaded to S3: '+ responseS3)
+        controller.enqueue('Uploaded to S3: '+ responseS3);
         controller.close();
       },
     });
@@ -97,7 +96,7 @@ export async function GET() {
     if (typeof error === 'object' && error !== null && 'message' in error) {
       message = error.message;
     }
-    return NextResponse.json({ message: message }, { status: 500 })
+    return true; // TODO: format this response
   }
 
 }
