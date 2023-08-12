@@ -13,18 +13,18 @@ export default function Main({articles}: {articles: NewsArticle[]}) {
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-8 xl:p-16 max-w-[1400px] mx-auto">
-      <div className="grid grid-cols-5 pb-8 border-[#666] border-double border-b-4 w-full mb-12">
-        <h4>{new Date(new Date().setFullYear(new Date().getFullYear() + 100)).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h4>
-        <h1 className="w-[720px] text-center col-span-3">
-          <p className="text-xl pb-1">Speculative Satire from the Future</p>
+    <main className="flex min-h-screen flex-col items-center justify-between p-8 xl:p-16 max-w-[1240px] mx-auto">
+      <div className="lg:grid grid-cols-5 pb-4 lg:pb-6 border-[#666] border-double border-b-4 w-full mb-12">
+        <h4 className="text-center text-xs pb-2 italic lg:text-base lg:text-left">{new Date(new Date().setFullYear(new Date().getFullYear() + 100)).toLocaleString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</h4>
+        <h1 className="lg:w-[720px] text-center col-span-3">
+          <p className="text-lg lg:text-xl pb-3 lg:pb-4">Speculative Satire from the Future</p>
           <Image src="/notyetnews.svg" width={720} height={48} alt="Not Yet News" />
         </h1>
       </div>
-      <div className="grid lg:grid-cols-3 gap-8">
+      <div className="lg:grid lg:grid-cols-3 gap-8">
         <div className="col-span-2 divide-y divide-[#aaa] -mt-8">
           {topArticles.map((article, i) => (
-            <div className="flex flex-col flex-col-reverse md:flex-row gap-4 md:gap-8 py-8" key={`article-${i}`}>
+            <div className="flex flex-col-reverse md:flex-row gap-4 md:gap-8 py-8" key={`article-${i}`}>
               <div className="w-full md:w-2/5">
                 <h3 className="text-xl font-semibold pb-2 ">{article.title}</h3>
                 <p>{article.abstract}</p>
@@ -35,7 +35,7 @@ export default function Main({articles}: {articles: NewsArticle[]}) {
             </div>
           ))}
         </div>
-        <div className="pl-8 border-l border-l-[#aaa]">
+        <div className="lg:pl-8 lg:border-l lg:border-l-[#aaa]">
           {batchedArticles.map((batch, i) => (
             <>
               <div className="flex flex-col gap-8 pb-8" key={`article-${i}`}>
