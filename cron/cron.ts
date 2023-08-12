@@ -1,11 +1,5 @@
-// Import your worker code. This is just an example.
-// Replace it with the actual require statement for your worker code.
-// const { generateImage } = require('./openai/generateImage');
-// const { generateParody } = require('./openai/generateImage');
-// const { uploadJSONToS3, transferImageToS3 } = require('./aws/s3');
-
-import { uploadJSONToS3 } from "./aws/s3";
-
+const { uploadJSONToS3, transferImageToS3 } = require('./aws/s3');
+const { generateImage } = require('./openai/generateImage');
 import { generateParody } from "./openai/generateParody"
 
 import { config } from 'dotenv';
@@ -45,14 +39,14 @@ async function main() {
       return null
     }
 
-    // // Generate image
-    // try {
-    //   console.log(`Generate image #${(newArticles.length+1)}`)
-    //   const generatedImageUrl = await generateImage(imageDescription);
-    //   newArticle.imageUrl = await transferImageToS3(generatedImageUrl, 'notyetnews-'+Date.now()+'.png')
-    // } catch (error) {
-    //   console.log('Image generation error')
-    // }
+    // Generate image
+    try {
+      console.log(`Generate image #${(newArticles.length+1)}`)
+      const generatedImageUrl = await generateImage(imageDescription);
+      newArticle.imageUrl = await transferImageToS3(generatedImageUrl, 'notyetnews-'+Date.now()+'.png')
+    } catch (error) {
+      console.log('Image generation error')
+    }
 
     // Add to parody articles
     if (newArticle) {
