@@ -26,7 +26,7 @@ export async function generateImage(prompt: String) {
       req
     )
 
-    const result = await response.json()
+    const result:any = await response.json()
 
     if (response.ok) {
       console.log('generateImage response ok. result.data[0]:', result.data[0])
