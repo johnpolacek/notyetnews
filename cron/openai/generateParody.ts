@@ -1,10 +1,11 @@
-import { Configuration, OpenAIApi } from 'openai-edge'
+import { Configuration, OpenAIApi } from "openai";
+import { config } from 'dotenv';
+config();
 
-// Create an OpenAI API client (that's edge friendly!)
-const config = new Configuration({
-  apiKey: process.env.OPENAI_API_KEY
-})
-const openai = new OpenAIApi(config)
+const configuration = new Configuration({
+  apiKey: process.env.OPENAI_API_KEY,
+});
+const openai = new OpenAIApi(configuration);
 
 export async function generateParody(article: string) {
 
@@ -45,23 +46,24 @@ export async function generateParody(article: string) {
     }]
   })
   console.log('response received')
-  const json = await response.json()
-  let argumentsString, dataString
-  console.log('loaded json')
-  try {
-    argumentsString = json.choices[0].message.function_call.arguments;
-    dataString = argumentsString.replace(/\\n/g, '').replace(/\\r/g, '').replace(/\n/g, '').replace(/\r/g, '');
-    // const dataString:string = argumentsString.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\r/g, '\r');
-    // const dataString:string = argumentsString.replace(/"(.*?)"/gs, (match: string, group1: string) => {
-    //   return '"' + group1.replace(/\n/g, '\\n').replace(/\r/g, '\\r') + '"';
-    // });
-    console.log('parsing data...')
-    const data = JSON.parse(dataString)
-    console.log('data parsed!')
-    return data
-  } catch (error) {
-    console.error('Failed to parse JSON', error, {argumentsString, dataString});
-    return error
-  }
+  console.log({response});
+  // const json = await response.json()
+  // let argumentsString, dataString
+  // console.log('loaded json')
+  // try {
+  //   argumentsString = json.choices[0].message.function_call.arguments;
+  //   dataString = argumentsString.replace(/\\n/g, '').replace(/\\r/g, '').replace(/\n/g, '').replace(/\r/g, '');
+  //   // const dataString:string = argumentsString.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\r/g, '\r');
+  //   // const dataString:string = argumentsString.replace(/"(.*?)"/gs, (match: string, group1: string) => {
+  //   //   return '"' + group1.replace(/\n/g, '\\n').replace(/\r/g, '\\r') + '"';
+  //   // });
+  //   console.log('parsing data...')
+  //   const data = JSON.parse(dataString)
+  //   console.log('data parsed!')
+  //   return data
+  // } catch (error) {
+  //   console.error('Failed to parse JSON', error, {argumentsString, dataString});
+  //   return error
+  // }
 
 }
