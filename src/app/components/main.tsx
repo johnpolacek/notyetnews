@@ -1,4 +1,5 @@
 import Image from 'next/image'
+import Footer from './footer'
 import { NewsArticle } from '../types'
 
 export default function Main({articles}: {articles: NewsArticle[]}) {
@@ -29,11 +30,14 @@ export default function Main({articles}: {articles: NewsArticle[]}) {
                 <h3 className="text-xl font-semibold pb-2 ">{article.title}</h3>
                 <p>{article.abstract}</p>
               </div>
-              <div className="w-full md:w-3/5 grow border">
+              <div className="w-full md:w-3/5 grow md:pl-4">
                 <Image className='w-full h-auto' alt="" src={article.imageUrl || `/placeholder${Math.round(Math.random() * 5)}.png`} width={180} height={180} />
               </div>
             </div>
           ))}
+          <div className="pt-8">
+            <Footer />
+          </div>
         </div>
         <div className="lg:pl-8 lg:border-l lg:border-l-[#aaa]">
           {batchedArticles.map((batch, i) => (
