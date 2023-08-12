@@ -11,9 +11,6 @@ const s3 = new S3Client({
   }
 });
 
-console.log('process.env.AWS_ACCESS_KEY_ID ' + process.env.AWS_ACCESS_KEY_ID)
-console.log('process.env.AWS_SECRET_ACCESS_KEY ' + process.env.AWS_SECRET_ACCESS_KEY)
-
 export const uploadImageToS3 = async (buffer: Buffer, key: string) => {
   try {
     if (!process.env.AWS_S3_BUCKET_NAME) {

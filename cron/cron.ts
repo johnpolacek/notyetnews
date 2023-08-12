@@ -1,5 +1,5 @@
-import { generateParody } from "./openai/generateParody"
 import fetch from 'node-fetch';
+import { generateParody } from "./openai/generateParody"
 import { uploadJSONToS3, transferImageToS3 } from "./aws/s3";
 import { generateImage } from './openai/generateImage';
 import { config } from 'dotenv';
