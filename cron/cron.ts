@@ -1,15 +1,14 @@
-const { uploadJSONToS3, transferImageToS3 } = require('./aws/s3');
-const { generateImage } = require('./openai/generateImage');
 import { generateParody } from "./openai/generateParody"
 import fetch from 'node-fetch';
-
+import { uploadJSONToS3, transferImageToS3 } from "./aws/s3";
+import { generateImage } from './openai/generateImage';
 import { config } from 'dotenv';
 config();
 
 async function main() {
   const url = 'https://api.nytimes.com/svc/topstories/v2/home.json?api-key=' + process.env.NYT_API_KEY;
   const response = await fetch(url);
-  const data = await response.json();
+  const data:any = await response.json();
   console.log(`Fetched ${data.results.length} results from api.nytimes.com`)
 
   console.log('Generate parody for: '+data.results[0].title + ' - ' + data.results[0].abstract)
