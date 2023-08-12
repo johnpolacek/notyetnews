@@ -1,4 +1,6 @@
 import { S3Client, PutObjectCommand } from "@aws-sdk/client-s3";
+import { config } from 'dotenv';
+config();
 
 const s3 = new S3Client({
   region: process.env.AWS_REGION,
@@ -7,6 +9,9 @@ const s3 = new S3Client({
     secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY || ''
   }
 });
+
+console.log('process.env.AWS_ACCESS_KEY_ID ' + process.env.AWS_ACCESS_KEY_ID)
+console.log('process.env.AWS_SECRET_ACCESS_KEY ' + process.env.AWS_SECRET_ACCESS_KEY)
 
 export const uploadImageToS3 = async (buffer: Buffer, key: string) => {
   try {

@@ -45,25 +45,24 @@ export async function generateParody(article: string) {
       }
     }]
   })
-  console.log('response received')
-  console.log({response});
-  // const json = await response.json()
-  // let argumentsString, dataString
-  // console.log('loaded json')
-  // try {
-  //   argumentsString = json.choices[0].message.function_call.arguments;
-  //   dataString = argumentsString.replace(/\\n/g, '').replace(/\\r/g, '').replace(/\n/g, '').replace(/\r/g, '');
-  //   // const dataString:string = argumentsString.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\r/g, '\r');
-  //   // const dataString:string = argumentsString.replace(/"(.*?)"/gs, (match: string, group1: string) => {
-  //   //   return '"' + group1.replace(/\n/g, '\\n').replace(/\r/g, '\\r') + '"';
-  //   // });
-  //   console.log('parsing data...')
-  //   const data = JSON.parse(dataString)
-  //   console.log('data parsed!')
-  //   return data
-  // } catch (error) {
-  //   console.error('Failed to parse JSON', error, {argumentsString, dataString});
-  //   return error
-  // }
-
+  try {
+    const argumentsString = response.data.choices[0].message?.function_call?.arguments;
+    if (argumentsString) {
+      const dataString = argumentsString.replace(/\\n/g, '').replace(/\\r/g, '').replace(/\n/g, '').replace(/\r/g, '');
+      // const dataString:string = argumentsString.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\r/g, '\r');
+      // const dataString:string = argumentsString.replace(/"(.*?)"/gs, (match: string, group1: string) => {
+      //   return '"' + group1.replace(/\n/g, '\\n').replace(/\r/g, '\\r') + '"';
+      // });
+      console.log('parsing data...')
+      const data = JSON.parse(dataString)
+      console.log('data parsed!')
+      return data
+    } else {
+      console.error('Failed to parse JSON', {response});
+      return new Error('Failed to parse JSON')
+    }
+  } catch (error) {
+    console.error('Failed to parse JSON', error);
+    return error
+  }
 }

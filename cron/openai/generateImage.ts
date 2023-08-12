@@ -1,3 +1,6 @@
+import { config } from 'dotenv';
+config();
+
 export async function generateImage(prompt: String) {
   const apiKey = process.env.OPENAI_API_KEY
   const headers = {
