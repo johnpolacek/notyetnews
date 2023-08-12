@@ -1,6 +1,7 @@
 const { uploadJSONToS3, transferImageToS3 } = require('./aws/s3');
 const { generateImage } = require('./openai/generateImage');
 import { generateParody } from "./openai/generateParody"
+import fetch from 'node-fetch';
 
 import { config } from 'dotenv';
 config();
