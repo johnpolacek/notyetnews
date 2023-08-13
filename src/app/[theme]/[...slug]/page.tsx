@@ -19,6 +19,6 @@ export default async function Home({ params }: { params: { theme: string, slug: 
   const articleIndex = params.slug[1] ? parseInt(params.slug[1]) : undefined;
 
   return (
-    typeof articleIndex === 'number' && articles[articleIndex] ? (<Article article={articles[articleIndex]} />) : (<Main theme={params.theme} slug={params.slug} articles={articles} />)
+    typeof articleIndex === 'number' && articles[articleIndex] ? (<Article article={articles[articleIndex]} />) : (<Main theme={params.theme} slug={params.slug[0]} articles={articles} />)
   )
 }
