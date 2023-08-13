@@ -10,8 +10,8 @@ export default function Main({theme, slug, articles}: {theme: string, slug: stri
     return {...a, index: i}
   })
 
-  const topArticles = articleData.slice(0,8)
-  const otherArticles = articleData.slice(8)
+  const topArticles = articleData.slice(0,12)
+  const otherArticles = articleData.slice(12)
   const batchedArticles = []
   for(let i = 0; i < otherArticles.length; i += 3) {
     batchedArticles.push(otherArticles.slice(i, i+3));
@@ -34,16 +34,13 @@ export default function Main({theme, slug, articles}: {theme: string, slug: stri
               </div>
             </Link>
           ))}
-          <div className="pt-8">
-            <Footer />
-          </div>
         </div>
         <div className="col-span-2 lg:pl-8 lg:border-l lg:border-l-[#aaa]">
           {batchedArticles.map((batch, i) => (
             <>
               <Link href={`/${theme}/${slug}/${batch[0].index+1}`} className="flex flex-col gap-8 pb-8" key={`article-${i}`}>
                 <Image className='w-full h-auto' alt="" src={batch[0].imageUrl || `/placeholder${Math.round(Math.random() * 6)}.png`} width={180} height={180} />
-                <div className="border-b border-[#aaa] pb-6">
+                <div className="pb-4">
                   <h3 className="text-xl font-semibold pb-2 ">{batch[0].title}</h3>
                   <p>{batch[0].abstract}</p>
                   <p className="text-indigo-600 italic py-2 block">Read more...</p>
@@ -67,6 +64,9 @@ export default function Main({theme, slug, articles}: {theme: string, slug: stri
             </>
           ))}
         </div>
+      </div>
+      <div className="w-full border-t border-gray-400 mt-12 pt-8">
+        <Footer />
       </div>
     </main>
   )
