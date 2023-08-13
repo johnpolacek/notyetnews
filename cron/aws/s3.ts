@@ -11,33 +11,6 @@ const s3 = new S3Client({
   }
 });
 
-export const uploadImageToS3 = async (buffer: Buffer, key: string) => {
-  try {
-    if (!process.env.AWS_S3_BUCKET_NAME) {
-      throw new Error('AWS_S3_BUCKET_NAME is not set in the environment variables');
-    }
-
-    console.log("Prepare for upload to S3")
-
-    const command = new PutObjectCommand({
-      Bucket: process.env.AWS_S3_BUCKET_NAME,
-      Key: key,
-      Body: buffer,
-      ContentType: 'image/jpeg', // Or use a more specific MIME type based on the image format
-    });
-    await s3.send(command);
-
-    console.log("Upload complete")
-
-    const publicUrl = `https://${process.env.AWS_S3_BUCKET_NAME}.s3.amazonaws.com/${key}`
-    console.log("Image uploaded successfully:", publicUrl)
-    return publicUrl
-  } catch (error) {
-    console.error("Error uploading image to S3:", error)
-    throw new Error("Error uploading image to S3")
-  }
-};
-
 export const uploadJSONToS3 = async (json: string, key: string) => {
   try {
     if (!process.env.AWS_S3_BUCKET_NAME) {

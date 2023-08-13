@@ -1,6 +1,6 @@
 import fetch from 'node-fetch';
-import { generateParody } from "./openai/generateParody"
 import { uploadJSONToS3, transferImageToS3 } from "./aws/s3";
+import { generateParody } from "./openai/generateParody"
 import { generateImage } from './openai/generateImage';
 import { config } from 'dotenv';
 config();
@@ -13,8 +13,6 @@ async function main() {
 
   console.log('Generate parody for: '+data.results[0].title + ' - ' + data.results[0].abstract)
   console.log(process.env.OPENAI_API_KEY);
-
-  // generateParody(data.results[0].title + ' - ' + data.results[0].abstract);
 
   // Process each article
   const newArticles = [];

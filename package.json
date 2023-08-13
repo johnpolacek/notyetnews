@@ -7,8 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "cron": "ts-node cron/cron.ts",
-    "upload-test": "ts-node cron/upload-test.ts"
+    "cron": "ts-node cron/cron.ts"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.388.0",

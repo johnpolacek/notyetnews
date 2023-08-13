@@ -49,10 +49,6 @@ export async function generateParody(article: string) {
     const argumentsString = response.data.choices[0].message?.function_call?.arguments;
     if (argumentsString) {
       const dataString = argumentsString.replace(/\\n/g, '').replace(/\\r/g, '').replace(/\n/g, '').replace(/\r/g, '');
-      // const dataString:string = argumentsString.replace(/\\n/g, '\n').replace(/\\'/g, "'").replace(/\\r/g, '\r');
-      // const dataString:string = argumentsString.replace(/"(.*?)"/gs, (match: string, group1: string) => {
-      //   return '"' + group1.replace(/\n/g, '\\n').replace(/\r/g, '\\r') + '"';
-      // });
       console.log('parsing data...')
       const data = JSON.parse(dataString)
       console.log('data parsed!')
