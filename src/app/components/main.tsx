@@ -38,7 +38,7 @@ export default function Main({theme, slug, articles}: {theme: string, slug: stri
         <div className="col-span-2 lg:pl-8 lg:border-l lg:border-l-[#aaa]">
           {batchedArticles.map((batch, i) => (
             <>
-              <Link href={`/${theme}/${slug}/${batch[0].index+1}`} className="flex flex-col gap-8 pb-8" key={`article-${i}`}>
+              <Link href={`/${theme}/${slug}/${batch[0].index}`} className="flex flex-col gap-8 pb-8" key={`article-${i}`}>
                 <Image className='w-full h-auto' alt="" src={batch[0].imageUrl || `/placeholder${Math.round(Math.random() * 6)}.png`} width={180} height={180} />
                 <div className="pb-4">
                   <h3 className="text-xl font-semibold pb-2 ">{batch[0].title}</h3>
