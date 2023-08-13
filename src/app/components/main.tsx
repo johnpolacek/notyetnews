@@ -18,10 +18,10 @@ export default function Main({theme, slug, articles}: {theme: string, slug: stri
   }
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-8 xl:p-16 max-w-[1240px] mx-auto">
+    <main className="flex min-h-screen flex-col items-center justify-between p-8 xl:p-16 max-w-[1280px] mx-auto">
       <Header />
-      <div className="lg:grid lg:grid-cols-3 gap-8">
-        <div className="col-span-2 divide-y divide-[#aaa] -mt-8">
+      <div className="lg:grid lg:grid-cols-5 gap-8">
+        <div className="col-span-3 divide-y divide-[#aaa] -mt-8">
           {topArticles.map((article, i) => (
             <Link href={`/${theme}/${slug}/${article.index+1}`} className="flex flex-col-reverse md:flex-row gap-4 md:gap-8 py-8" key={`article-${i}`}>
               <div className="w-full md:w-2/5">
@@ -38,7 +38,7 @@ export default function Main({theme, slug, articles}: {theme: string, slug: stri
             <Footer />
           </div>
         </div>
-        <div className="lg:pl-8 lg:border-l lg:border-l-[#aaa]">
+        <div className="col-span-2 lg:pl-8 lg:border-l lg:border-l-[#aaa]">
           {batchedArticles.map((batch, i) => (
             <>
               <Link href={`/${theme}/${slug}/${batch[0].index+1}`} className="flex flex-col gap-8 pb-8" key={`article-${i}`}>
@@ -46,6 +46,7 @@ export default function Main({theme, slug, articles}: {theme: string, slug: stri
                 <div className="border-b border-[#aaa] pb-6">
                   <h3 className="text-xl font-semibold pb-2 ">{batch[0].title}</h3>
                   <p>{batch[0].abstract}</p>
+                  <p className="text-indigo-600 italic py-2 block">Read more...</p>
                 </div>
               </Link>
               {
@@ -54,10 +55,12 @@ export default function Main({theme, slug, articles}: {theme: string, slug: stri
                   <Link href={`/${theme}/${slug}/${batch[1].index+1}`} className="pr-8">
                     <Image className='pb-2 w-full h-auto' alt="" src={batch[1].imageUrl || `/placeholder${Math.round(Math.random() * 6)}.png`} width={180} height={180} />
                     <h3 className="text-sm font-semibold pb-2 ">{batch[1].title}</h3>
+                    <p className="text-indigo-600 italic py-2 block text-sm">Read more...</p>
                   </Link>
                   <Link href={`/${theme}/${slug}/${batch[2].index+1}`} className="pl-8">
                     <Image className='pb-2 w-full h-auto' alt="" src={batch[2].imageUrl || `/placeholder${Math.round(Math.random() * 6)}.png`} width={180} height={180} />
                     <h3 className="text-sm font-semibold pb-2 ">{batch[2].title}</h3>
+                    <p className="text-indigo-600 italic py-2 block text-sm">Read more...</p>
                   </Link>
                 </div>)
               }
