@@ -51,11 +51,13 @@ Next I created a Next.js page that would load the JSON from S3 and render a layo
 
 ### CRON Job
 
-I had the script generation running locally, where it could build a JSON file with all the articles and images. However, this process takes a long time. Vercel has a 10 second limit on their serverless functions. Switching to Edge bumps it up to 30 seconds.
+I had the script generation running locally, where it could build a JSON file with all the articles and images. However, this process takes a long time, about 15 minutes or so. Vercel has a 10 second limit on their serverless functions. 
 
-However, if you use the Streams Web API, you can keep the connection open indefinitely. Therefore I decided to switch to the streaming function.
+Rewrote it to run locally as a node script. Looked into services that I could use to run the script as a cron job and settled on [Render](https://render.com/).
 
-https://vercel.com/docs/concepts/functions/edge-functions/streaming
+So now the cron script runs once a day to generate the content and upload the JSON as a file to S3. My frontend on Next.js loads the JSON from S3 and generates the front page and article pages.
+
+
 
 
 
