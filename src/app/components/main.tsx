@@ -6,7 +6,9 @@ import { NewsArticle } from '../types'
 
 export default function Main({theme, slug, articles}: {theme: string, slug: string, articles: NewsArticle[]}) {
 
-  const articleData = articles.filter((article) => (article.title && article.abstract))
+  const articleData = articles.filter((article) => (article.title && article.abstract)).map((a, i) => {
+    return {...a, index: i}
+  })
 
   const topArticles = articleData.slice(0,8)
   const otherArticles = articleData.slice(8)
@@ -21,7 +23,7 @@ export default function Main({theme, slug, articles}: {theme: string, slug: stri
       <div className="lg:grid lg:grid-cols-3 gap-8">
         <div className="col-span-2 divide-y divide-[#aaa] -mt-8">
           {topArticles.map((article, i) => (
-            <Link href={`/${theme}/${slug}/${i}`} className="flex flex-col-reverse md:flex-row gap-4 md:gap-8 py-8" key={`article-${i}`}>
+            <Link href={`/${theme}/${slug}/${article.index+1}`} className="flex flex-col-reverse md:flex-row gap-4 md:gap-8 py-8" key={`article-${i}`}>
               <div className="w-full md:w-2/5">
                 <h3 className="text-xl font-semibold pb-2 ">{article.title}</h3>
                 <p>{article.abstract}</p>
@@ -39,24 +41,24 @@ export default function Main({theme, slug, articles}: {theme: string, slug: stri
         <div className="lg:pl-8 lg:border-l lg:border-l-[#aaa]">
           {batchedArticles.map((batch, i) => (
             <>
-              <div className="flex flex-col gap-8 pb-8" key={`article-${i}`}>
+              <Link href={`/${theme}/${slug}/${batch[0].index+1}`} className="flex flex-col gap-8 pb-8" key={`article-${i}`}>
                 <Image className='w-full h-auto' alt="" src={batch[0].imageUrl || `/placeholder${Math.round(Math.random() * 6)}.png`} width={180} height={180} />
                 <div className="border-b border-[#aaa] pb-6">
                   <h3 className="text-xl font-semibold pb-2 ">{batch[0].title}</h3>
                   <p>{batch[0].abstract}</p>
                 </div>
-              </div>
+              </Link>
               {
                 batch.length === 3 && (
                 <div className="grid grid-cols-2 divide-x divide-[#aaa] pb-8">
-                  <div className="pr-8">
+                  <Link href={`/${theme}/${slug}/${batch[1].index+1}`} className="pr-8">
                     <Image className='pb-2 w-full h-auto' alt="" src={batch[1].imageUrl || `/placeholder${Math.round(Math.random() * 6)}.png`} width={180} height={180} />
                     <h3 className="text-sm font-semibold pb-2 ">{batch[1].title}</h3>
-                  </div>
-                  <div className="pl-8">
+                  </Link>
+                  <Link href={`/${theme}/${slug}/${batch[2].index+1}`} className="pl-8">
                     <Image className='pb-2 w-full h-auto' alt="" src={batch[2].imageUrl || `/placeholder${Math.round(Math.random() * 6)}.png`} width={180} height={180} />
                     <h3 className="text-sm font-semibold pb-2 ">{batch[2].title}</h3>
-                  </div>
+                  </Link>
                 </div>)
               }
             </>
