@@ -1,5 +1,4 @@
 import Main from './components/main'
-import { NewsArticle } from './types'
 
 async function getNewsArticles() {
   let date = new Date();
