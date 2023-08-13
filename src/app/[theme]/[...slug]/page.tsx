@@ -1,4 +1,5 @@
-import Main from '../../components/main'
+import Main from '@/app/components/main'
+import Article from '@/app/components/article'
 import { NewsArticle } from '../../types'
 
 async function getNewsArticles({theme, slug}: { theme: string, slug: string[] }) {
@@ -15,8 +16,9 @@ async function getNewsArticles({theme, slug}: { theme: string, slug: string[] })
 export default async function Home({ params }: { params: { theme: string, slug: string[] } }) {
 
   const articles:NewsArticle[] = await getNewsArticles({...params})
+  const articleIndex = params.slug[1] ? parseInt(params.slug[1]) : undefined;
 
   return (
-    <Main articles={articles} />
+    typeof articleIndex === 'number' && articles[articleIndex] ? (<Article article={articles[articleIndex]} />) : (<Main theme={params.theme} slug={params.slug} articles={articles} />)
   )
 }
